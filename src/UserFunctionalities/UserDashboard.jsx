@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { getUserDetails, getAllItems } from "../service/api";
-import "./dashboard.css";
+import "./css/dashboard.css";
 
 function UserDashboard({ token, user, onLogout }) {
   const [email, setEmail] = useState("");

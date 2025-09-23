@@ -1,49 +1,32 @@
-import { useState } from "react";
-import UserLogin from "./UserFunctionalities/UserLogin";
-import UserSignup from "./PublicFunctionalities/UserSignup";
-import UserDashboard from "./UserFunctionalities/UserDashboard";
+import { BrowserRouter as Router, Routes, Route, useNavigate } from "react-router-dom";
+import AuthRouterUser from "./UserFunctionalities/AuthRouterUser";
+// import AuthRouterAdmin from "./AdminFunctionalities/AuthRouterAdmin";
 
-function App() {
-  const [user, setUser] = useState(null);
-  const [token, setToken] = useState("");
-  const [view, setView] = useState("login"); // 'login' | 'signup' | 'dashboard'
-
-  const handleLogin = (userData, authToken) => {
-    setUser(userData);
-    setToken(authToken);
-    setView("dashboard");
-  };
-
-  const handleLogout = () => {
-    setUser(null);
-    setToken("");
-    setView("login");
-  };
+function RoleSelection() {
+  const navigate = useNavigate();
 
   return (
-    <div className="app-container">
-      {view === "signup" && (
-        <UserSignup 
-          onSignupSuccess={(userData, authToken) => handleLogin(userData, authToken)} 
-        />
-      )}
-
-      {view === "login" && <UserLogin onLogin={handleLogin} />}
-
-      {view === "dashboard" && (
-        <UserDashboard user={user} token={token} onLogout={handleLogout} />
-      )}
-
-      {/* Navigation buttons */}
-      <div style={{ marginTop: "1rem" }}>
-        {view !== "signup" && view !== "dashboard" && (
-          <button onClick={() => setView("signup")}>Go to Signup</button>
-        )}
-        {view !== "login" && view !== "dashboard" && (
-          <button onClick={() => setView("login")}>Go to Login</button>
-        )}
-      </div>
+    <div style={{ textAlign: "center", marginTop: "2rem" }}>
+      <h2>Select Role to Enter</h2>
+      <button onClick={() => navigate("/user")} style={{ marginRight: "1rem" }}>
+        Enter as User
+      </button>
+      <button onClick={() => navigate("/admin")}>
+        Enter as Admin
+      </button>
     </div>
+  );
+}
+
+function App() {
+  return (
+    <Router>
+      <Routes>
+        <Route path="/" element={<RoleSelection />} />
+        <Route path="/user" element={<AuthRouterUser />} />
+        {/* <Route path="/admin" element={<AuthRouterAdmin />} /> */}
+      </Routes>
+    </Router>
   );
 }
 
