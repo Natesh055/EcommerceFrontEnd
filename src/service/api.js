@@ -34,6 +34,17 @@ export const getUserOrders = async (token) => {
   }
 };
 
+// ✅ Get all available items/orders
+export const getAllItems = async () => {
+  try {
+    const response = await axios.get(`${BASE_URL}/user/all-items`);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching all items:", error);
+    throw error;
+  }
+};
+
 // ✅ Update user details
 export const updateUser = async (token, userData) => {
   try {
